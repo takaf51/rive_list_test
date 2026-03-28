@@ -13,6 +13,7 @@
     "vite": "^8.0.1"
   },
   "dependencies": {
+    "@rive-app/canvas": "^2.36.0",
     "@rive-app/react-webgl2": "^4.27.3"
   }
 }
