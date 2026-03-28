@@ -1,9 +1,26 @@
-import "./style.css";
+// import "./style.css";
 import { Rive } from "@rive-app/webgl2";
 interface Item {
   caption: string;
   L1: boolean;
   L2: boolean;
+}
+
+
+onLoad: () => {
+  const resize = () => {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = riveCanvas.getBoundingClientRect();
+
+    riveCanvas.width = rect.width * dpr;
+    riveCanvas.height = rect.height * dpr;
+
+    rive.resizeDrawingSurfaceToCanvas();
+  };
+
+  resize();
+  window.addEventListener("resize", resize);
+
 }
 
 const riveCanvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -14,48 +31,65 @@ const load = async () => {
   ]);
 
   const rive = new Rive({
-    src: "listtest.riv",
-    canvas: riveCanvas,
-    stateMachines: "State Machine 1",
-    autoplay: true,
-    // autoBind: true, // 動的にリストを組む場合は、手動バインドの方が制御しやすいです
-    onLoad: () => {
-      // 1. テンプレート（定義）の取得
-      const mainVM = rive.viewModelByName("MainVM");
-      const listItemVM = rive.viewModelByName("LIstItemVM");
-      if (!mainVM || !listItemVM) return;
+  src: "listtest.riv",
+  canvas: riveCanvas,
+  stateMachines: "State Machine 1",
+  autoplay: true,
 
-      // 2. 実際に使う「インスタンス」をメモリ上に作成
-      const mainInstance = mainVM.defaultInstance();
-      if (!mainInstance) return;
-      const listProp = mainInstance.list("listProperty");
-      if (!listProp) return;
-      // 3. 既存のダミーデータを削除（必要に応じて）
-      while (listProp.length > 0) {
-        listProp.removeInstance(0);
+  onLoad: () => {
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = riveCanvas.getBoundingClientRect();
+
+      riveCanvas.width = rect.width * dpr;
+      riveCanvas.height = rect.height * dpr;
+
+      rive.resizeDrawingSurfaceToCanvas();
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // ===== あなたの既存処理 =====
+
+    const mainVM = rive.viewModelByName("MainVM");
+    const listItemVM = rive.viewModelByName("LIstItemVM");
+    if (!mainVM || !listItemVM) return;
+
+    const mainInstance = mainVM.defaultInstance();
+    if (!mainInstance) return;
+
+    const listProp = mainInstance.list("listProperty");
+    if (!listProp) return;
+
+    listProp.removeInstanceAt(0);
+
+    data.forEach((item) => {
+      const listItem = listItemVM.defaultInstance();
+      if (!listItem) return;
+
+      const captionProp = listItem.string("Caption");
+      if (captionProp) {
+        captionProp.value = item.caption;
       }
 
-      // // 4. データをループして子要素を作成・追加
-      // data.forEach((item) => {
-      //   const listItem = listItemVM.defaultInstance();
-      //   if (!listItem) return;
-      //   // Captionプロパティへの代入（型の確認を忘れずに）
-      //   const captionProp = listItem.string("Caption");
-      //   if (captionProp) {
-      //     captionProp.value = item.caption;
-      //   }
+      const starList = listItem.list("StarLIst");
+      if (starList) {
+        const lv1 = starList.instanceAt(0)?.boolean("IsActive");
+        const lv2 = starList.instanceAt(1)?.boolean("IsActive");
 
-      //   // 親のリストプロパティに追加
-      //   listProp.addInstance(listItem);
-      // });
+        if (lv1 && lv2) {
+          lv1.value = item.L1;
+          lv2.value = item.L2;
+        }
+      }
 
-      // // 【最重要】作成したインスタンスをRiveにバインドする
-      // // これを呼んだ瞬間にUIが更新されます
-      // rive.bindViewModelInstance(mainInstance);
+      listProp.addInstance(listItem);
+    });
 
-      console.log("List updated with", listProp.length, "items.");
-    },
-  });
+    rive.bindViewModelInstance(mainInstance);
+  },
+});
 };
 
 load();
