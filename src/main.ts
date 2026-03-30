@@ -18,7 +18,7 @@ let list: ViewModelInstanceList | null = null;
 
 // --- ユーティリティ ---
 function getStarList(index: number) {
-  return list?.instanceAt(index)?.list("StarLIst") ?? null;
+  return list?.instanceAt(index)?.list("StarList") ?? null;
 }
 
 function syncBoolSelects(index: number) {
@@ -95,7 +95,7 @@ async function load() {
         const captionProp = listItem.string("Caption");
         if (captionProp) captionProp.value = item.caption;
 
-        const starList = listItem.list("StarLIst");
+        const starList = listItem.list("StarList");
         if (starList) {
           const lv1 = starList.instanceAt(0)?.boolean("IsActive");
           const lv2 = starList.instanceAt(1)?.boolean("IsActive");
