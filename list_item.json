@@ -1,5 +1,12 @@
 [
   {"caption":"側頭部のコリ", "L1": false, "L2": false},
   {"caption":"首のコリ", "L1": true, "L2": true},
-  {"caption":"目の上のコリ", "L1": true, "L2": false}
+  {"caption":"目の上のコリ", "L1": true, "L2": false},
+  {"caption":"肩のコリ", "L1": true, "L2": true},
+  {"caption":"後頭部のコリ", "L1": false, "L2": true},
+  {"caption":"眉間のコリ", "L1": true, "L2": false},
+  {"caption":"頬のコリ", "L1": false, "L2": true},
+  {"caption":"あごのコリ", "L1": true, "L2": false},
+  {"caption":"耳周りのコリ", "L1": false, "L2": false},
+  {"caption":"鎖骨周りのコリ", "L1": true, "L2": true}
 ]

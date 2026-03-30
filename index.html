@@ -4,15 +4,54 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>Rive Dev</title>
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <h1>rive list test</h1>
-    <div id="app"></div>
-    <canvas
-      style="height: 100%; width: 100%; background-color: black"
-      id="canvas"
-    ></canvas>
+
+    <!-- コントロールパネル -->
+    <div id="controls">
+      <div class="panel-header">Inspector</div>
+
+      <div class="control-group">
+        <label for="numberSelect">Index</label>
+        <select id="numberSelect">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="bool1">L1 — IsActive</label>
+        <select id="bool1">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="bool2">L2 — IsActive</label>
+        <select id="bool2">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- キャンバス -->
+    <div id="canvas-wrapper">
+      <canvas id="canvas"></canvas>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
