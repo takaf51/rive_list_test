@@ -128,13 +128,11 @@ select#bool2[value="false"] {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 canvas#canvas {
   display: block;
-  background: #000;
-  /* サイズは JS 側で固定（410x215）。CSS で上書きしない */
 }
 
 /* ── スクロールバー ─────────────────────────────────── */

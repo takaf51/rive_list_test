@@ -1,4 +1,4 @@
-import { Rive, ViewModelInstanceList } from "@rive-app/webgl2";
+import { Rive, Layout, Fit, Alignment, ViewModelInstanceList } from "@rive-app/webgl2";
 
 // --- 型 ---
 interface Item {
@@ -28,12 +28,11 @@ function syncBoolSelects(index: number) {
 }
 
 const ARTBOARD_W = 410;
-const ARTBOARD_H = 215;
+const ARTBOARD_H = 795;
 
 function setupCanvas(rive: Rive) {
-  const dpr = window.devicePixelRatio || 1;
-  riveCanvas.width  = ARTBOARD_W * dpr;
-  riveCanvas.height = ARTBOARD_H * dpr;
+  riveCanvas.width  = ARTBOARD_W;
+  riveCanvas.height = ARTBOARD_H;
   riveCanvas.style.width  = `${ARTBOARD_W}px`;
   riveCanvas.style.height = `${ARTBOARD_H}px`;
   rive.resizeDrawingSurfaceToCanvas();
@@ -68,6 +67,7 @@ async function load() {
     canvas: riveCanvas,
     stateMachines: "State Machine 1",
     autoplay: true,
+    layout: new Layout({ fit: Fit.Layout, alignment: Alignment.Center }),
 
     onLoad: () => {
       setupCanvas(rive);
@@ -77,9 +77,15 @@ async function load() {
       const mainInstance = mainVM?.defaultInstance();
       if (!mainInstance || !listItemVM) return;
 
-      // スクロール監視
+      // scrollPercentY → FaceVM.numOfImage (1-10) を制御
+      const numOfImage = mainInstance.number("propertyOfFaceVM/numOfImage");
       const scrollPercentY = mainInstance.number("ScrollPercentY");
-      scrollPercentY?.on(() => console.log(scrollPercentY.value));
+      scrollPercentY?.on(() => {
+        if (numOfImage) {
+          const v = Math.round(1 + (scrollPercentY.value / 100) * 9);
+          numOfImage.value = Math.max(1, Math.min(10, v));
+        }
+      });
 
       // リスト初期化
       const listProp = mainInstance.list("listProperty");
