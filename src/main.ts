@@ -44,14 +44,14 @@ function onNumberChanged(e: Event) {
   syncBoolSelects(index);
 }
 
-function onL1Change(e: Event) {
+function onL1Change() {
   if (!numberSelect || !bool1) return;
   const starList = getStarList(Number(numberSelect.value));
   const target = starList?.instanceAt(0)?.boolean("IsActive");
   if (target) target.value = bool1.value === "true";
 }
 
-function onL2Change(e: Event) {
+function onL2Change() {
   if (!numberSelect || !bool2) return;
   const starList = getStarList(Number(numberSelect.value));
   const target = starList?.instanceAt(1)?.boolean("IsActive");
@@ -90,7 +90,6 @@ async function load() {
       // リスト初期化
       const listProp = mainInstance.list("listProperty");
       if (!listProp) return;
-      list = listProp;
       listProp.removeInstanceAt(0);
 
       // JSONデータからリストアイテムを生成
