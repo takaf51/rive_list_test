@@ -37,6 +37,11 @@ body {
   grid-template-rows: 100vh;
 }
 
+/* コントロールパネル非表示時はキャンバスを全幅に */
+body:has(#controls[style*="display: none"]) {
+  grid-template-columns: 1fr;
+}
+
 /* ── コントロールパネル ─────────────────────────────── */
 #controls {
   display: flex;
